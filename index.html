@@ -94,20 +94,56 @@ for(let i=1;i<=10;i++){
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-const firebaseConfig = {apiKey: "AIzaSyAYx5dWAiOflEgLkbOQcjYoxofQLGaDenM",
-  authDomain: "tbtmxuannn.firebaseapp.com",
-  databaseURL: "https://tbtmxuannn-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "tbtmxuannn",
-  storageBucket: "tbtmxuannn.firebasestorage.app",
-  messagingSenderId: "1015377273919",
-  appId: "1:1015377273919:web:3fd3950e1fc8d9e2dec48a",
-  measurementId: "G-W4K7TBPCY3"
+import {
+getDatabase,
+ref,
+set,
+onValue
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAYX5dWAiOfIEgLkb0QCjYOxofQLGaDenM",
+authDomain: "tbtmxuannn.firebaseapp.com",
+databaseURL: "https://tbtmxuannn-default-rtdb.asia-southeast1.firebasedatabase.app",
+projectId: "tbtmxuannn",
+storageBucket: "tbtmxuannn.firebasestorage.app",
+messagingSenderId: "1015377273919",
+appId: "1:1015377273919:web:3fd3950e1fc8d9e2dec48a",
+measurementId: "G-W4K7TBPCY3"
 
 };
 
 const app = initializeApp(firebaseConfig);
 
-</script>
+const db = getDatabase(app);
 
-</body>
-</html>
+let btns = document.querySelectorAll("button");
+
+btns[0].onclick = function(){
+
+if(btns[0].innerText=="OFF"){
+
+btns[0].innerText="ON";
+
+set(ref(db,"relay1"),"ON");
+
+}
+else{
+
+btns[0].innerText="OFF";
+
+set(ref(db,"relay1"),"OFF");
+
+}
+
+}
+
+onValue(ref(db,"relay1"),(snapshot)=>{
+
+btns[0].innerText = snapshot.val();
+
+});
+
+</script>
