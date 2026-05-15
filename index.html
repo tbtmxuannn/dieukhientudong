@@ -1,16 +1,80 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Dieu khien ESP32</title>
+  <title>Dieu khien</title>
+
+  <style>
+
+    body{
+      font-family: Arial;
+      text-align:center;
+    }
+
+    .box{
+      margin:20px;
+    }
+
+    button{
+      width:120px;
+      height:50px;
+      font-size:18px;
+    }
+
+    input{
+      height:30px;
+      font-size:16px;
+      text-align:center;
+    }
+
+  </style>
 </head>
 
 <body>
 
-<h1>Web dieu khien</h1>
+<h1>Dieu khien Relay</h1>
 
-<button>Bật đèn</button>
+<div id="buttons"></div>
 
-<button>Tắt đèn</button>
+<script>
+
+let container = document.getElementById("buttons");
+
+for(let i=1;i<=10;i++){
+
+  let div = document.createElement("div");
+  div.className = "box";
+
+  let name = document.createElement("input");
+  name.value = "Role " + i;
+
+  let btn = document.createElement("button");
+
+  btn.innerText = "OFF";
+
+  btn.onclick = function(){
+
+    if(btn.innerText == "OFF"){
+      btn.innerText = "ON";
+    }
+    else{
+      btn.innerText = "OFF";
+    }
+
+  }
+
+  div.appendChild(name);
+
+  div.appendChild(document.createElement("br"));
+  div.appendChild(document.createElement("br"));
+
+  div.appendChild(btn);
+
+  container.appendChild(div);
+
+}
+
+</script>
 
 </body>
 </html>
