@@ -121,13 +121,16 @@ btns[i].onclick = function(){
 if(btns[i].innerText=="OFF"){
 
 btns[i].innerText="ON";
-
+btns[i].style.background="lime";
+btns[i].style.color="white";
 set(ref(db,relayName),"ON");
 
 }
 else{
 
 btns[i].innerText="OFF";
+  btns[i].style.background="gray";
+btns[i].style.color="white";
 
 set(ref(db,relayName),"OFF");
 
@@ -138,6 +141,15 @@ set(ref(db,relayName),"OFF");
 onValue(ref(db,relayName),(snapshot)=>{
 
 btns[i].innerText = snapshot.val();
+
+if(snapshot.val()=="ON"){
+btns[i].style.background="lime";
+btns[i].style.color="white";
+}
+else{
+btns[i].style.background="gray";
+btns[i].style.color="white";
+}
 
 });
 
