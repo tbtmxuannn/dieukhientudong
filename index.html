@@ -1,3 +1,6 @@
+# index.html hoàn chỉnh (code gọn, dễ sửa)
+
+```html
 <!DOCTYPE html>
 <html>
 
@@ -6,42 +9,26 @@
 
 <style>
 
-body{
-  font-family:Arial;
-  text-align:center;
-}
+body{  font-family:Arial;
+  text-align:center;}
 
-#buttons{
-  display:grid;
+#buttons{  display:grid;
   grid-template-columns: repeat(5,1fr);
   gap:20px;
-  margin-top:30px;
-}
+  margin-top:30px;}
 
-.card{
-
-  border:2px solid black;
+.card{  border:2px solid black;
   padding:20px;
-  margin:10px;
+  margin:10px;}
 
-}
-
-button{
-
-  width:120px;
+button{  width:120px;
   height:50px;
-  font-size:18px;
+  font-size:18px;}
 
-}
-
-input{
-
-  width:120px;
+input{  width:120px;
   height:30px;
   text-align:center;
-  margin-bottom:15px;
-
-}
+  margin-bottom:15px;}
 
 </style>
 
@@ -69,17 +56,6 @@ for(let i=1;i<=10;i++){
 
   btn.innerText = "OFF";
 
-  btn.onclick = function(){
-
-    if(btn.innerText=="OFF"){
-      btn.innerText="ON";
-    }
-    else{
-      btn.innerText="OFF";
-    }
-
-  }
-
   card.appendChild(name);
   card.appendChild(document.createElement("br"));
   card.appendChild(btn);
@@ -93,17 +69,11 @@ for(let i=1;i<=10;i++){
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-import {
-getDatabase,
-ref,
-set,
-onValue
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+// ===== FIREBASE =====
 
 const firebaseConfig = {
-
 apiKey: "AIzaSyAYX5dWAiOfIEgLkb0QCjYOxofQLGaDenM",
 authDomain: "tbtmxuannn.firebaseapp.com",
 databaseURL: "https://tbtmxuannn-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -112,38 +82,86 @@ storageBucket: "tbtmxuannn.firebasestorage.app",
 messagingSenderId: "1015377273919",
 appId: "1:1015377273919:web:3fd3950e1fc8d9e2dec48a",
 measurementId: "G-W4K7TBPCY3"
-
 };
 
-const app = initializeApp(firebaseConfig);
+// ===== THONG SO =====
 
+const soRelay = 10;
+const soCot = 5;
+const rongNut = "120px";
+const caoNut = "50px";
+const rongTen = "120px";
+const caoTen = "30px";
+
+const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+
+// ===== GIAO DIEN =====
+
+document.getElementById("buttons").style.gridTemplateColumns = `repeat(${soCot},1fr)`;
+
+let container = document.getElementById("buttons");
+
+for(let i=1;i<=soRelay;i++){
+
+let card = document.createElement("div");
+card.className = "card";
+
+let name = document.createElement("input");
+name.value = "Role " + i;
+name.style.width = rongTen;
+name.style.height = caoTen;
+
+let btn = document.createElement("button");
+btn.innerText = "OFF";
+btn.style.width = rongNut;
+btn.style.height = caoNut;
+
+card.appendChild(name);
+card.appendChild(document.createElement("br"));
+card.appendChild(btn);
+
+container.appendChild(card);
+
+}
+
+// ===== FIREBASE RELAY =====
 
 let btns = document.querySelectorAll("button");
 
-btns[0].onclick = function(){
+for(let i=0;i<soRelay;i++){
 
-if(btns[0].innerText=="OFF"){
+let relayName = "relay" + (i+1);
 
-btns[0].innerText="ON";
+btns[i].onclick = function(){
 
-set(ref(db,"relay1"),"ON");
-
+if(btns[i].innerText == "OFF"){
+btns[i].innerText = "ON";
+set(ref(db,relayName),"ON");
 }
 else{
-
-btns[0].innerText="OFF";
-
-set(ref(db,"relay1"),"OFF");
-
+btns[i].innerText = "OFF";
+set(ref(db,relayName),"OFF");
 }
 
 }
 
-onValue(ref(db,"relay1"),(snapshot)=>{
-
-btns[0].innerText = snapshot.val();
-
+onValue(ref(db,relayName),(snapshot)=>{
+btns[i].innerText = snapshot.val();
 });
 
+}
+
 </script>
+
+</body>
+</html>
+```
+
+Sau đó:
+
+* Copy toàn bộ
+* Dán đè vào file `index.html`
+* Commit changes
+* Mở lại web
+* Test ON/OFF relay1 → relay10
